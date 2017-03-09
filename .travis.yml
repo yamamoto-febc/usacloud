@@ -1,0 +1,48 @@
+sudo: required
+services:
+- docker
+language: go
+go:
+- 1.8
+env:
+  global:
+  - PATH=/home/travis/gopath/bin:$PATH DEBIAN_FRONTEND=noninteractive
+  - secure: auAK+Ghd0+AiB+rXDFvH/7RmHTu2yyuTwXVsGkMwymHb1z9e++/asSlEnXrh2dsXXD8EaXdE0rU/WzH7CZJ2WE7/ZBoAyPSqerccWD1Ulr4qdgWSY4eCLNHLWifkz6tyHc7PzTWQPwJDQ8xwaSIpJXIR88YL1tejlY4oIAZus1L1bhLY4QueIsG2RJRL8+HNwLeGyv+45F8t1pU5spD18EnGhoD1YWUT+ZTSYqmdHfvJsSv/7CHon6Fq/4SwKyhDZfQZyC2wRqlZDlPY703W7cqmcB0B47ZdUVfQ3XnJih5WG1j3v2XYHU6guLPCGuMtQBf0OWFwGCkveCsuMifu52MHuOghR0Oa2q14esWU7iWPAMqTfj3VQ9Cyr1vT6ZwaoMV/fRmOw6sYdITHsDbsh5C/1zJiUdPuxffjv4DxjlzopWiPRJwBlVlowNLXPsHK/GSfqeVoG/CMaA9onyvin3VXXtJ9YCYW3jEY/lZQGoygWbXLHoWbkn8OkdUN01UJn+GgrTfIcHlgsSv3c7DS+tUQmoNSfw3PJrVcZPUDh7lXnYQeOQOX3fbmN24C2SQxqb5M2WC//neRWxnk8XugELeqURlhdSOqSxkRQuRePWXmJr4GNIeiCkeVlIGFBk2KwR63O5gbxsR/gRB1Aw8TyPwWgTPOKYDobxED5LX8nUk=
+  - secure: UjZmMO6whbI9vxsQrzkcY/eTHUxSkXtTaFzsKPv240vvHjriFWJnby1xkLiUUsw4NUQskYRJyD5yYxd7V1eeuMwHVucrnbuiAmfrEHA5ZSkPNZ40tfvAKlfqqEx0xSxH7bj0+U71ZXs3MsNCtpIVUKeK/k4ioBHwa0iw2J1El6zJ8x3jaGIdItrgZ0CigO7EVBjhKlCfoU8qi1MeEw/Hv9SMKICY5pe0prMBjwbKbqgPRoE7ckeHOaaAjpBrZsIfFaX+BHO869BynLj7m7rkGgCCNtVSPZF6EAiZkm8YVg/zzhWZb/afVhwgb058Sgl0TaG7em/ihP3vsBYno7LU7G0JvgAkmi3Ka6Mckn+0Zf49V2DqvMm+gCZQLr+GsnMpWZC9/KlOUvTOiHzJlSdgSXw22vK14z265Q7eolkbh5VKHHDBRxv7RSj/pNIclkRHTi9p/0hJ0ylpzEOVWObFYGRwfTuuHP7zvH/aRC3R50Wc6hg8RDEGcJB9B3lYtHwmRu0xlAYbc+5M07CAl3ruv2jYRjcRZS3CAxeNSjX8BY1xWrwHyxAsA2aoTg0fJjLCY1ayu5Uu5Qm4ZmW9UQ9Ck52z6mw4J08cMQnbZFXR55jlbHIWvP8zU/Ixx2ichuZ6XEJyv2wFDdRfQ0SKCjfWa6fH+Uv7p4sbRxT83Pdk8fE=
+  - secure: rWvh3YwRadlOfiHERX9psBd6sgWp5W98T6U5YVJ+3rJF9c7/glVbEiHqE5WRS+GQHhTxQDMB+2Yv+O18bEdiWg92K4eDDIzvebAktEDdVQViT2odf6dnsF3nk1UkR8iNzkQ5PO8c5syUl0C542fvz9d/jKsxIp5hSATY2uiB06kYmiFcFh0DQ9d08n8y9K+5n6M6VYbM9Pq2+MdfA0xmx5qqMpwA1cQ/VHNbHCqzU5nY9CWLe2xird8Re7ttX8UU1QWWGZqGtTZyzksf4iBZhWFdG/guyI+eutKqWt39BQUvpgnBvz6nJVKH4BNr5MqdLAk73ekwNZJOXxRe0YZg78qTtnUqKE+GsPPKb6PArL/+OZDYeJ5MkLJ+1vq4byRESTezrX+SIMMNNoZZO1F7huW0M6hU0jsweGQ7S79IWPJ+Hi5NY3+2Xolpa2OCxtQOSZLqmKlJt4KfHlWW4FcYmCxa0SNiJ06N45+OefWT7gSiXVgbT+/YJC7DMb7xGNgxo3Znsa83UKDGkrss0dbgckFNzSCAD9q04M1MOF/MKRjJNAHHnGETgYrH79Ed2/VJyrcI6hssheC6fmjEA9PpnUmxSWUjFe/sr4rlc+OPpFAesq712j5A+cnxfVST/B6KfaW2jrOORFpralt5VbJ0+M92JUZ+5VSHIHQHlv/HdT0=
+addons:
+  apt:
+    packages:
+    - devscripts
+    - debhelper
+script:
+- make docker-build
+before_deploy:
+- docker pull sacloud/usacloud:rpm-build
+- docker pull sacloud/usacloud:deb-build
+- make rpm deb
+- go get github.com/aktau/github-release
+- go get github.com/sacloud/usacloud
+- go install github.com/sacloud/usacloud
+- mkdir -p ~/bin
+- git clone https://github.com/github/hub.git && cd hub && script/build -o ~/bin/hub
+  && cd ..
+- echo $TRAVIS_BRANCH
+- git config --add remote.origin.fetch '+refs/heads/*:refs/remotes/origin/*'
+- git fetch
+- git checkout master || git checkout -b master origin/master
+- git checkout $TRAVIS_BRANCH
+- git fetch --depth=1000
+- git fetch --tags --depth=1000 || true
+deploy:
+- provider: script
+  script: scripts/usacloud-release.pl --task=upload-to-github-release && scripts/usacloud-release.pl --task=upload-master-to-github-release -v
+  skip_cleanup: true
+  on:
+    branch: master
+- provider: script
+  script: scripts/usacloud-release.pl --task=create-pullrequest --current-branch=$TRAVIS_BRANCH
+  skip_cleanup: true
+  on:
+    all_branches: true
+    condition: "$TRAVIS_BRANCH =~ ^bump-version-.*$"
