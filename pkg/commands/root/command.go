@@ -33,7 +33,7 @@ var Command = &cobra.Command{
 	Long:  `CLI to manage to resources on the SAKURA Cloud`,
 
 	PersistentPreRun: func(cmd *cobra.Command, args []string) {
-		if cmd.Name() == "update-self" { // update-selfだけ例外扱い。Note: 例外扱いするコマンドが増えるようであれば実装を修正する
+		if cmd.Name() == "update-self" || cmd.Name() == "mcp" { // update-selfとmcpは例外扱い。Note: 例外扱いするコマンドが増えるようであれば実装を修正する
 			return
 		}
 		once.Do(func() {

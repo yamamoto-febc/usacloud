@@ -18,6 +18,7 @@ require (
 	github.com/mattn/go-colorable v0.1.14
 	github.com/mattn/go-isatty v0.0.20
 	github.com/mitchellh/go-homedir v1.1.0
+	github.com/modelcontextprotocol/go-sdk v0.4.0
 	github.com/olekukonko/tablewriter v0.0.5
 	github.com/rhysd/go-github-selfupdate v1.2.3
 	github.com/sacloud/api-client-go v0.3.0
@@ -46,6 +47,7 @@ require (
 	github.com/golang/protobuf v1.5.2 // indirect
 	github.com/google/go-github/v30 v30.1.0 // indirect
 	github.com/google/go-querystring v1.0.0 // indirect
+	github.com/google/jsonschema-go v0.2.1-0.20250825175020-748c325cec76 // indirect
 	github.com/hashicorp/errwrap v1.0.0 // indirect
 	github.com/hashicorp/go-cleanhttp v0.5.2 // indirect
 	github.com/hashicorp/go-multierror v1.1.1 // indirect
@@ -64,6 +66,7 @@ require (
 	github.com/sacloud/ftps v1.2.0 // indirect
 	github.com/tcnksm/go-gitconfig v0.1.2 // indirect
 	github.com/ulikunitz/xz v0.5.9 // indirect
+	github.com/yosida95/uritemplate/v3 v3.0.2 // indirect
 	github.com/zclconf/go-cty v1.14.4 // indirect
 	go.uber.org/ratelimit v0.3.1 // indirect
 	golang.org/x/mod v0.25.0 // indirect

@@ -19,6 +19,7 @@ import (
 	"github.com/sacloud/usacloud/pkg/commands/completion"
 	"github.com/sacloud/usacloud/pkg/commands/config"
 	"github.com/sacloud/usacloud/pkg/commands/iaas"
+	"github.com/sacloud/usacloud/pkg/commands/mcp"
 	"github.com/sacloud/usacloud/pkg/commands/rest"
 	"github.com/sacloud/usacloud/pkg/commands/root"
 	updateSelf "github.com/sacloud/usacloud/pkg/commands/update-self"
@@ -38,6 +39,7 @@ var (
 
 	RootCommands = []*cobra.Command{
 		completion.Command,
+		mcp.Command,
 		version.Command,
 		updateSelf.Command,
 	}
