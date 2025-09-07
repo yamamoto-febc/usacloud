@@ -166,7 +166,6 @@ MCPサーバは以下のツールを提供します：
   - `command` (string, required): 実行するusacloudコマンド (例: 'server list', 'zone list')
   - `args` (array, optional): 追加の引数
   - `flags` (array, optional): 追加のフラグ
-- **セキュリティ制限**: 破壊的操作（create, delete, shutdown等）は実行できません
 
 #### 4. get_config
 - **説明**: usacloudの設定情報を取得
@@ -187,7 +186,11 @@ Claude Desktop等のMCPクライアントでUsacloudを使用する場合は、�
   "mcpServers": {
     "usacloud": {
       "command": "/path/to/usacloud",
-      "args": ["mcp"]
+      "args": ["mcp"],
+      "env": {
+        "SAKURACLOUD_ACCESS_TOKEN": "<your-access-token>",
+        "SAKURACLOUD_ACCESS_TOKEN_SECRET": "<your-access-token-secret>"
+      }
     }
   }
 }
