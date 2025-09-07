@@ -265,6 +265,23 @@ func min(a, b int) int {
 	return b
 }
 
+// HasOutputTypeFlag checks if the command supports --output-type flag
+func (c *CommandCatalog) HasOutputTypeFlag(commandPath string) bool {
+	cmdInfo, err := c.GetCommandHelp(commandPath)
+	if err != nil {
+		return false
+	}
+
+	// フラグ情報から output-type, out, o のいずれかが存在するかチェック
+	for _, flag := range cmdInfo.Flags {
+		if flag.Name == "output-type" || flag.Name == "out" || flag.Name == "o" {
+			return true
+		}
+	}
+
+	return false
+}
+
 // ToJSON converts command info to JSON string
 func (c *CommandCatalog) ToJSON(commands interface{}) (string, error) {
 	data, err := json.MarshalIndent(commands, "", "  ")

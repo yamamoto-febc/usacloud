@@ -130,6 +130,67 @@ Available Commands:
     rest               
     self               
     completion         Generate completion script
+    mcp                Model Context Protocol サーバを起動
+```
+
+## Model Context Protocol (MCP) サーバ
+
+UsacloudにはModel Context Protocol (MCP) サーバ機能が組み込まれています。
+MCPは、AI言語モデル（Claude、ChatGPT等）がアプリケーション固有のツール、データソース、プロンプトテンプレートへアクセスできるようにするための統一プロトコルです。
+
+### MCPサーバの起動
+
+```bash
+usacloud mcp
+```
+
+このコマンドは標準入出力を使用してJSON-RPC形式で通信します。
+
+### 利用可能なツール
+
+MCPサーバは以下のツールを提供します：
+
+#### 1. list_commands
+- **説明**: usacloudの利用可能な全コマンドの一覧を取得
+- **パラメータ**: 
+  - `include_hidden` (bool, optional): 隠されたコマンドも含めるか
+
+#### 2. get_command_help
+- **説明**: 特定のコマンドの詳細なヘルプ情報を取得
+- **パラメータ**:
+  - `command` (string, required): ヘルプを取得したいコマンド (例: 'server list', 'disk create')
+
+#### 3. execute_command
+- **説明**: usacloudコマンドを安全に実行（読み取り専用操作のみ）
+- **パラメータ**:
+  - `command` (string, required): 実行するusacloudコマンド (例: 'server list', 'zone list')
+  - `args` (array, optional): 追加の引数
+  - `flags` (array, optional): 追加のフラグ
+- **セキュリティ制限**: 破壊的操作（create, delete, shutdown等）は実行できません
+
+#### 4. get_config
+- **説明**: usacloudの設定情報を取得
+- **パラメータ**:
+  - `name` (string, optional): 取得する設定名（空の場合は全設定）
+
+#### 5. list_zones
+- **説明**: 利用可能なゾーン一覧を取得
+- **パラメータ**:
+  - `output_format` (string, optional): 出力形式 (json/yaml/table)
+
+### Claude Desktopでの使用方法
+
+Claude Desktop等のMCPクライアントでUsacloudを使用する場合は、設定ファイルに以下のような設定を追加してください：
+
+```json
+{
+  "mcpServers": {
+    "usacloud": {
+      "command": "/path/to/usacloud",
+      "args": ["mcp"]
+    }
+  }
+}
 ```
 
 ## License
