@@ -1,5 +1,10 @@
 name: Tests
-on: [push, pull_request]
+on:
+  push:
+  pull_request:
+  workflow_run:
+    workflows: ["tagpr"]
+    types: [completed]
 env:
   GOPROXY: https://proxy.golang.org
 jobs:
